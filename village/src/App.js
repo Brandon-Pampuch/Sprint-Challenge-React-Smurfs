@@ -1,32 +1,43 @@
-import React, { Component } from 'react';
-import axios from 'axios'
-import './App.css';
-import SmurfForm from './components/SmurfForm';
-import Smurfs from './components/Smurfs';
-import { Route, NavLink } from 'react-router-dom'
+import React, { Component } from "react";
+import axios from "axios";
+import "./App.css";
+import SmurfForm from "./components/SmurfForm";
+import Smurfs from "./components/Smurfs";
+import { Route, NavLink } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurfs: [],
+      smurfs: []
     };
   }
 
   componentDidMount = () => {
-    axios.get("http://localhost:3333/smurfs")
-    .then(res => {
-      const smurfs = res.data;
-      this.setState({ smurfs: smurfs });
-      console.log(this.state.smurfs);
-    
+    axios.get("http://localhost:3333/smurfs").then(res => {
+      const smurfs = res;
+      this.setState({ smurfs: smurfs.data });
     });
+
   }
 
     addNewSmurf = (smurfs) =>{
       axios
       
     .post("http://localhost:3333/smurfs", smurfs)
+    .then(res => {
+      const smurfs = res.data;
+      this.setState({ smurfs: smurfs });
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    }
+    deleteSmurf = (smurf) =>{
+      axios
+      
+    .delete(`http://localhost:3333/smurfs/${smurf.id}`)
     .then(res => {
       const smurfs = res.data;
       this.setState({ smurfs: smurfs });
@@ -47,7 +58,7 @@ class App extends Component {
         </nav>
       </header>
       <div className="App">
-         <Route exact path={"/"} render={(props)=> <Smurfs {...props} smurfs={this.state.smurfs} />} />
+         <Route exact path={"/"} render={(props)=> <Smurfs {...props} smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} />} />
          <Route path={"/smurfs"} render={(props)=> <SmurfForm {...props} addNewSmurf={this.addNewSmurf} />} />
       </div>
       </div>
