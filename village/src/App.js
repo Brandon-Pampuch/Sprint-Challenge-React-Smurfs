@@ -18,25 +18,36 @@ class App extends Component {
       const smurfs = res;
       this.setState({ smurfs: smurfs.data });
     });
-  };
 
+  }
+
+    addNewSmurf = (smurfs) =>{
+      axios
+      
+    .post("http://localhost:3333/smurfs", smurfs)
+    .then(res => {
+      const smurfs = res.data;
+      this.setState({ smurfs: smurfs });
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    }
+  
   render() {
     return (
       <div>
-        <header>
-          <nav>
-            <NavLink to={"/"}>home</NavLink>
-            <NavLink to={"/smurfs"}>form</NavLink>
-          </nav>
-        </header>
-        <div className="App">
-          <Route
-            exact
-            path={"/"}
-            render={props => <Smurfs smurfs={this.state.smurfs} />}
-          />
-          <Route path={"/smurfs"} render={props => <SmurfForm {...props} />} />
-        </div>
+      <header>
+        <nav>
+          <NavLink to={"/"}>home</NavLink>
+          <NavLink to={"/smurfs"}>form</NavLink>
+        </nav>
+      </header>
+      <div className="App">
+         <Route exact path={"/"} render={(props)=> <Smurfs {...props} smurfs={this.state.smurfs} />} />
+         <Route path={"/smurfs"} render={(props)=> <SmurfForm {...props} addNewSmurf={this.addNewSmurf} />} />
+      </div>
       </div>
     );
   }
