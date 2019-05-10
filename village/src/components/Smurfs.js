@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom'
 import Smurf from './Smurf';
 
 class Smurfs extends Component {
+
+
+
+deleteSmurf = (smurf) =>{
+this.props.deleteSmurf(smurf)
+}
+
+
+
   render() {
     return (
       <div className="Smurfs">
@@ -12,15 +21,16 @@ class Smurfs extends Component {
           {this.props.smurfs.map(smurf => {
 
             return (
+              <div>
              <Smurf
                 name={smurf.name}
                 id={smurf.id}
                 age={smurf.age}
                 height={smurf.height}
                 key={smurf.id}
-          
-                
-              />
+                />
+                <button onClick={()=> this.deleteSmurf(smurf)}>delete</button>
+                </div>
             );
           })}
         </ul>
