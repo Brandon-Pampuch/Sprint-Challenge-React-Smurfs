@@ -22,13 +22,13 @@ this.props.deleteSmurf(smurf)
 
             return (
               <div>
-             <Smurf
+             <Link to={"/smurfs"}><Smurf
                 name={smurf.name}
                 id={smurf.id}
                 age={smurf.age}
                 height={smurf.height}
                 key={smurf.id}
-                />
+                /></Link>
                 <button onClick={()=> this.deleteSmurf(smurf)}>delete</button>
                 </div>
             );
